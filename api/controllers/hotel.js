@@ -1,15 +1,23 @@
 import Hotel from "../models/Hotel.js";
 import { createError } from "./../utils/error.js";
 
+//CREATE
+
 export const createHotel = async (req, res, next) => {
   const newHotel = new Hotel(req.body);
   try {
     const savedHotel = await newHotel.save();
     res.status(200).json(savedHotel);
   } catch (error) {
-    next(createError(404, "Hotel not created"));
+    if (error.name === "ValidationError") {
+      next(createError(400, error.message));
+    } else {
+      next(createError(500, "Internal server error"));
+    }
   }
 };
+
+//UPDATE
 
 export const updateHotel = async (req, res) => {
   try {
@@ -26,6 +34,8 @@ export const updateHotel = async (req, res) => {
   }
 };
 
+//DELETE
+
 export const deleteHotel = async (req, res) => {
   try {
     await Hotel.findByIdAndDelete(req.params.id);
@@ -35,6 +45,8 @@ export const deleteHotel = async (req, res) => {
   }
 };
 
+//GET
+
 export const getHotel = async (req, res) => {
   try {
     const hotel = await Hotel.findById(req.params.id);
@@ -43,6 +55,8 @@ export const getHotel = async (req, res) => {
     next(createError(404, "Hotel not found"));
   }
 };
+
+//GET ALL
 
 export const getAllHotels = async (req, res, next) => {
   const qNew = req.query.new;

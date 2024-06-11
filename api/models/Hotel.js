@@ -1,3 +1,5 @@
+//api/models/Hotel.js
+
 import mongoose from "mongoose";
 
 const hotelSchema = new mongoose.Schema({
@@ -30,8 +32,8 @@ const hotelSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    min: 0,
-    max: 5,
+    min: [0, "Rating must be at least 0"],
+    max: [5, "Rating must not exceed 5"],
   },
   rooms: {
     type: [String],

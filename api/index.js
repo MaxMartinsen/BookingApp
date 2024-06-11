@@ -1,6 +1,10 @@
+//api/index.js
+
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+
 import authRoute from "./routes/auth.js";
 import usersRoute from "./routes/users.js";
 import hotelsRoute from "./routes/hotels.js";
@@ -35,6 +39,7 @@ mongoose.connection.on("error", (error) =>
 );
 
 //middleware
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/v1/auth", authRoute);
@@ -45,12 +50,15 @@ app.use("/api/v1/rooms", roomsRoute);
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Internal Server Error";
-  return res.status(errorStatus).json({
+  const errorResponse = {
     success: false,
     status: errorStatus,
     message: errorMessage,
-    stack: err.stack,
-  });
+  };
+  if (process.env.NODE_ENV === "development") {
+    errorResponse.stack = err.stack;
+  }
+  return res.status(errorStatus).json(errorResponse);
 });
 
 app.listen(8800, () => {
