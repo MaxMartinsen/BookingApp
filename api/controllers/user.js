@@ -35,20 +35,10 @@ export const getUser = async (req, res) => {
 };
 
 export const getAllUsers = async (req, res, next) => {
-  const qNew = req.query.new;
-  const qCity = req.query.city;
-
   try {
-    let users;
-    if (qNew) {
-      users = await User.find().sort({ createdAt: -1 }).limit(5);
-    } else if (qCity) {
-      users = await User.find({ city: qCity });
-    } else {
-      users = await User.find();
-    }
-    res.status(200).json(hotels);
+    const users = await User.find();
+    res.status(200).json(users);
   } catch (error) {
-    next(createError(404, "User not found"));
+    next(createError(404, "Users not found"));
   }
 };

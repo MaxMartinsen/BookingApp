@@ -4,7 +4,7 @@ import { createError } from "../utils/error.js";
 
 //CREATE
 export const createRoom = async (req, res, next) => {
-  const hotelId = req.params.id;
+  const hotelId = req.params.hotelid;
 
   const hotel = await Hotel.findById(hotelId);
   if (!hotel) {

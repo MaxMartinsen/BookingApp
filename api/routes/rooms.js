@@ -14,7 +14,7 @@ const router = express.Router();
 
 //CREATE
 
-router.post("/:id", verifyAdmin, createRoom);
+router.post("/:hotelid", verifyAdmin, createRoom);
 
 //UPDATE
 
