@@ -4,6 +4,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import authRoute from "./routes/auth.js";
 import usersRoute from "./routes/users.js";
@@ -39,6 +40,7 @@ mongoose.connection.on("error", (error) =>
 );
 
 //middleware
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
