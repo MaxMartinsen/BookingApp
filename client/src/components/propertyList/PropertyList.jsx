@@ -17,16 +17,16 @@ const PropertyList = () => {
       {loading ? (
         "Loading..."
       ) : error ? (
-        "Error"
+        "Error displaying properties"
       ) : (
         <>
           {data &&
             images.map((img, index) => (
-              <div className="pListItem">
+              <div className="pListItem" key={index}>
                 <img src={img} alt="" className="pListImg" />
                 <div className="pListTitles">
-                  <h1>{data[index].type}</h1>
-                  <h2>{data[index].count}</h2>
+                  <h1>{data[index]?.type ?? "Type not available"}</h1>
+                  <h2>{data[index]?.count ?? "Count not available"}</h2>
                 </div>
               </div>
             ))}
